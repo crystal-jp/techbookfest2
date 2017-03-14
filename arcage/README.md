@@ -75,7 +75,7 @@ Crystalのソースコードをコンパイルするのに使用する`crystal`�
           create  greeting/spec/greeting_spec.cr
     Initialized empty Git repository in (CWD)/greeting/.git/
     $ cd greeting
-    greeting$
+    (greeting)$
 
 なお、以降に登場する操作やファイルパスは、ここで作成されたプロジェクトディレクトリ`greeting`の直下にいること想定して記述していきます。
 
@@ -121,7 +121,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
 なお、この時点ではまだライブラリ本体に`Greeting.hello`自体が実装されていませんので、`crystal spec`を実行しても「そんなメソッドは無ぇ!!」と怒られてしまいます。必要なテストケースが書けたら、次はライブラリ本体の実装です。
 
-### ライブラリ機能を実装する
+### ライブラリ本体のコードを書く
 
 ライブラリの本体機能は`src/`ディレクトリ以下に記述します。`greeting`シャードを利用する際に最初に読み込まれる`src/greeting.cr`はプロジェクト雛形の生成時に用意されています。
 
@@ -135,7 +135,6 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 シンプルな機能のライブラリであればこの`# TODO Put your code here`の部分に直接コードを記述してしまっても良いですし、複数のクラスやモジュールから構成されるような場合には、モジュールやクラス毎にソースファイルを分割して`src/greeting`ディレクトリ配下に置いても構いません。
 
 今回はパブリックなクラスメソッドが1つだけという非常にシンプルな構造ですので、`src/greeting.cr`直接コードを記述してみます。
-
 
     (注:src/greeting.cr（機能実装後）)
     require "./greeting/*"
@@ -153,7 +152,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
     !!!cmd
     (注:テスト実行結果)
-    greeting$ crystal spec
+    (greeting)$ crystal spec
     F (注:失敗!!)
 
     Failures:
@@ -172,7 +171,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
     Failed examples:
 
     crystal spec spec/greeting_spec.cr:5 # Greeting .hello returns greeting string for name.
-    greeting$
+    (greeting)$
 
 おっと、失敗してしまいましたね。
 
@@ -192,12 +191,12 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
     !!!cmd
     (注:ソース修正後のテスト実行結果)
-    greeting$ crystal spec
+    (greeting)$ crystal spec
     . (注:成功!!)
 
     Finished in 922 microseconds
     1 examples, 0 failures, 0 errors, 0 pending
-    greeting$
+    (greeting)$
 
 
 こうして、全ての（といっても1つだけですが）テストケースを通過できたことで、`greeting` Shardが当初の設計通りに実装されていることを確認できました。
@@ -251,7 +250,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
 基本的には`[your-github-name]`となっている箇所をShardの公開に使用するGitHubのアカウント名に置き換えて、`TODO: Write 〜`となっている辺りを埋めればREADMEは完成です。さしあたり自分一人でメンテするつもりであれば、`## Development`や`## Contributing`などは削除してしまうという選択もありだと思います。
 
-というわけで、`README.md`ファイルはこんな感じで手を入れてみました。
+というわけで、`README.md`ファイルはこんな感じに手を入れてみました。
 
     (注:README.mdファイル（編集後）)
     # Greeting
@@ -284,7 +283,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
 Shardとしての体裁も整ったら、雛形生成時に用意された空のgitリポジトリに変更内容を反映させてGitHubへ公開します。
 
-ここについては、Shellでコマンドを叩く形でも、GUI付きのgitアプリケーションを利用する形でも、普段使用している手順で行ってください。
+この操作については、Shellでコマンドを叩く形でも、GUI付きのgitアプリケーションを利用する形でも、普段使用している手順で行ってください。
 
 GitHubにリポジトリが公開されれば、Shardとして利用するための準備は完了です。
 
@@ -327,10 +326,10 @@ GitHubにリポジトリが公開されれば、Shardとして利用するため
 `shard.yml`で指定されたShardをプロジェクトディレクトリ内へインストールするには、プロジェクトディレクトリで`crystal deps`コマンドを実行します。
 
     !!!cmd
-    hello$ crystal deps
+    (hello)$ crystal deps
     Updating https://github.com/arcage/greeting.git
     Installing greeting (HEAD)
-    hello$
+    (hello)$
 
 `shard.yml`指定したShardが別のShardを使用していた場合も、`crystal deps`コマンド一発で必要なShardを芋づる式に全てインストールしてくれます。
 
@@ -359,26 +358,26 @@ Shardの機能をコード内で使用するには、READMEで指定された形
 実行形式のファイルにコンパイルするには`crystal build`コマンドを使用します。
 
     !!!cmd
-    hello$ crystal build src/hello.cr
-    hello$
+    (hello)$ crystal build src/hello.cr
+    (hello)$
 
 コンパイル中にエラーが発生しなければ、ワーキングディレクトリにソースファイルのベースネーム（この場合`hello`）と同じ名前の実行ファイルができているはずです。パイプ経由で2行の入力を与えてみると、ソースコードの実装通り`Greeting.hello`の出力が2回行われました。
 
     !!!cmd
-    hello$ echo -e "John\nBob" | ./hello
+    (hello)$ echo -e "John\nBob" | ./hello
     Hello, John!
     Hello, Bob!
-    hello$
+    (hello)$
 
 # Shardのバージョン管理
 
 Shardのバージョン番号は必ず数字を含んでいなければならず、またダッシュ（-）やピリオド（.）を含んでも構いませんがそれらは連続しては使用できません（どうやら英文字は含んでも良いようです）。また、バージョン番号は[セマンティックバージョニング](http://semver.org/lang/ja/)のような、一貫性のあるルールに則って付けることを強く推奨されています（例：「0.0.1」「1.2.3」「2.0.0-rc1」など）。
 
-Shardのバージョンを表す情報として、プロジェクトファイル中にソースコード（`src/greeting/version.cr`）内で定義されている定数`Greeting::VERSION`と、`shard.yml`のトップレベルに置かれた`version`がありますが、それ以外にGitリポジトリ上のリリースごとに付けられたタグ情報（以下、バージョンタグ）も利用されます。
+Shardのバージョンを表す情報として、プロジェクトファイルの中にもソースコード（`src/greeting/version.cr`）内で定義されている定数`Greeting::VERSION`や、`shard.yml`のトップレベルに置かれた`version`などがありますが、それらの他にGitリポジトリ側のリリースごとに付けられたタグ情報（以下、バージョンタグ）も利用されます。
 
-このうち、Shardを使用する側のプロジェクトが、Shardのバージョンに`shard.yml`内で制約をかける際に使用されるのは、最後のバージョンタグによる指定のようです。ですので、Shardのバージョンを上げて`Greeting::VERSION`や`shard.yml`内の`version`を変更した場合には、Gitリポジトリ側でもバージョンタグを付けておくことをオススメします。
+このうち、`crystal deps`コマンドによってShardのバージョンとして認識される（バージョンを指定してShardをインストールする際などに利用される）のは、最後のバージョンタグのようです。ですので、Shardのバージョンを上げて`Greeting::VERSION`や`shard.yml`内の`version`を変更した場合には、Gitリポジトリ側でもバージョンタグを付けておくことをオススメします。
 
-ちなみに、プロジェクト雛型の生成時には、定数`Greeting::VERSION`と`shard.yml`内の`version`項目にはバージョン番号として「0.1.0」が設定されています。
+ちなみに、プロジェクト雛型の生成時には、定数`Greeting::VERSION`と`shard.yml`内の`version`項目には初期バージョン番号として「0.1.0」が設定されています。
 
 ## バージョンタグの付け方
 
@@ -404,13 +403,36 @@ Shardのバージョンを表す情報として、プロジェクトファイル
 
     !!!cmd
     (注:バージョンタグ設定済みのShardの場合)
-    hello $ crystal deps
+    (hello) $ crystal deps
     Updating https://github.com/arcage/greeting.git
     Installing greeting (0.1.0) (注:HEADではなくバージョン番号が認識されている)
 
 この後は、リリース（タグ）管理画面右上の「Draft a new release」ボタンから新しいリリースを作成することができるようになります。
 
 ![](images/version05.png)
+
+## 特定バージョンのShardを使う
+
+Shard側がバージョンタグをつけてくれていれば、使用する側のプロジェクトで特定のバージョンを指定してインストールすることができます。
+
+    (注:greeting Shardのv0.1.0を使うための記述)
+    dependencies:
+      greeting:
+        github: arcage/greeting
+        version: 0.1.0
+
+また、バージョン番号の前に`>` 、`>=`、`<`、`<=`などの演算子を指定すると、指定したバージョンより新しい、古いといった指定の仕方も可能です。
+
+    (注:v0.1.0以上を使うためのバージョン指定)
+    version: >= 0.1.0
+
+さらに、これら以外の演算子としてやや特殊な意味合いをもつ`~>`があり、以下のような動きをします。
+
+    (注: ~> 演算子の挙動)
+    version: ~> 1.0.2 (注: >= 1.0.2 かつ < 1.1.0)
+    version: ~> 2.1 (注: >= 2.1 かつ < 3.0)
+
+バージョンタグが適切につけられていれば、Shardのバージョンが上がった際のAPIの変更によって自分の書いたコードが最新版のShardではうまく動かなくなってしまったような場合に、過去のバージョンを明示して利用することができるようになり非常に便利です。
 
 # おわりに
 
