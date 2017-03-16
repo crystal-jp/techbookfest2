@@ -110,7 +110,7 @@ sleep 1.0
 ```
 
 buildして実行してみます。
-[]
+
 ```
 $ crystal build time.cr
 $ time ./time
