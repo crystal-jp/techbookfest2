@@ -80,7 +80,7 @@ attach:
 	docker attach $(CONTAINER_NAME)
 ```
 
-これらをHostマシンの作業ディレクトリに用意してbuildとrunを実行すれば、最新のCrystalを使用できる環境ができあがります。また、Hostマシンのディレクトリとコンテナ内のディレクトリがマウントされているので、実行はコンテナ内で、コード編集はHostマシンで行うことができます。buildしてコンテナに入ってみましょう。
+これらをHostマシンの作業ディレクトリに用意してbuildとrunを実行すれば、最新のCrystalを使用できる環境ができあがります。また、Hostマシンのディレクトリがコンテナ内のディレクトリにマウントされているので、実行はコンテナ内で、コード編集はHostマシンで行うことができます。buildしてコンテナに入ってみましょう。
 
 ```
 $ make build
@@ -185,23 +185,21 @@ end
 上記コードをbuildして実行してみましょう。
 
 ```
-$ crystal build ips.cr
-$ ./ips
-Warning: benchmarking without the `--release` flag won't yield useful results
-  short sleep  92.31  ( 10.83ms) (± 3.12%)  3.15× slower
-shorter sleep 291.04  (  3.44ms) (±10.73%)       fastest
-```
-
-こちらも`--release`のWarningが出ています。再buildします。
-
-```
 $ crystal build --release ips.cr
 $ ./ips
   short sleep  92.28  ( 10.84ms) (± 3.90%)  3.33× slower
 shorter sleep 307.36  (  3.25ms) (±10.97%)       fastest
 ```
 
-結果がほぼ変わっていません。これは、実際には最適化されていますが、`Benchmark#ips`の結果は相対評価なので出力される結果はさほど変わらない、ということです。`Benchmark#ips`は純粋に「コードの処理速度の相対評価」を調べたい時に使うと良いでしょう。
+結果は左から、
+
+* ラベル
+* 平均ips
+* 1イテレーション当たりの平均処理時間
+* 平均ipsに対する標準偏差
+* 比較結果
+
+となっています。
 
 Crystal標準でこれらのBenchmarkメソッドが用意されているのは便利ですね。
 
