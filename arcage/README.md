@@ -1,5 +1,5 @@
 Title: Shardを作ろう
-Author: ʕ•ᴥ•ʔAKJ / @arcage
+Author: AKJ / @arcage
 
 # ShardsとShard
 
@@ -100,7 +100,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
       # TODO: Write tests
 
       it "works" do
-        false.should eq(true) (注:「`fales`は`true`と等しい」)
+        false.should eq(true) (注:テストケース)
       end
     end
 
@@ -248,7 +248,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
     ## Contributors
 
-    - [[your-github-name]](https://github.com/[your-github-name]) ʕ·ᴥ·ʔAKJ - creator, maintainer
+    - [[your-github-name]](https://github.com/[your-github-name]) AKJ - creator, maintainer
 
 基本的には`[your-github-name]`となっている箇所をShardの公開に使用するGitHubのアカウント名に置き換えて、`TODO: Write 〜`となっている辺りを埋めればREADMEは完成です。さしあたり自分一人でメンテするつもりであれば、`## Development`や`## Contributing`などは削除してしまうという選択もありだと思います。
 
@@ -279,7 +279,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
     ## Contributors
 
-    - [arcage](https://github.com/arcage) ʕ·ᴥ·ʔAKJ - creator, maintainer
+    - [arcage](https://github.com/arcage) AKJ - creator, maintainer
 
 ## ライブラリをGitHubへ公開する
 
