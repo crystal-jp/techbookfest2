@@ -94,7 +94,7 @@ macros/   tools/     config.cr    formatter.cr     semantic.cr util.cr
 
 コンパイラのビルドにはCrystal以外に、[こちら](https://github.com/crystal-lang/crystal/wiki/All-required-libraries)に書いてあるライブラリが必要になります。インストール方法もそのページに書かれているので参考にしてください。
 
-依存ライブラリをインストールしたら、`make`コマンドを叩いてビルドを実行するだけです。また、ビルドしてできたファイルを削除したい場合は`make clean`を実行します。また、コンパイラのテストをするには`make compiler_spec`、標準ライブラリのテストをするには`make std_spec`を実行します。（`make spec`も存在しますが、膨大なメモリと実行時間を必要するので注意してください。）
+依存ライブラリをインストールしたら、`make`コマンドを叩いてビルドを実行するだけです。また、ビルドしてできたファイルを削除したい場合は`make clean`を実行します。また、コンパイラのテストをするには`make compiler_spec`、標準ライブラリのテストをするには`make std_spec`を実行します。（`make spec`も存在しますが、膨大なメモリと実行時間を必要とするので注意してください。）
 
 ```
 ●図1::Crystalのmake
@@ -214,7 +214,7 @@ p (1 + 2j) == Complex.new(1, 2) # => true
 
 虚数リテラルは数値リテラルを拡張したものなので、数値リテラルを解析しているところでそれに続いて`j`があるかどうかをチェックすればいいでしょう。なので数値リテラルを表す抽象構文木のクラスである`NumberLiteral`で検索をかけてみます。すると最初に`parse_atomic_without_location`というメソッドの中で`NumberLiteral.new`をしている場所（853行目）が見つかります。他にもいくつか`NumberLiteral`を使っている部分はありますが、それは型の一部であったり特殊な使われ方をしているため今回は関係がありません。この`parse_atomic_without_location`の`NumberLiteral.new`の後に、虚数リテラルでないかチェックする処理を記述します。（リスト3）
 
-`@token`には現在のトークンが格納されています。それが`j`であるかどうかを確認して、そうだった合あは`ImaginaryNumberLiteral`を作ります。これだと数値リテラルと`j`の間に空白があった場合も虚数リテラルになってしまいそうで薄気味悪いですが、Crystalは空白が意味をプログラムの意味を変えることがあるために、字句解析器が空白をトークンとして返すことがあるので問題は起こりません。
+`@token`には現在のトークンが格納されています。それが`j`であるかどうかを確認して、そうだった場合は`ImaginaryNumberLiteral`を作ります。これだと数値リテラルと`j`の間に空白があった場合も虚数リテラルになってしまいそうで薄気味悪いですが、Crystalは空白がプログラムの意味を変えることがあるために、字句解析器が空白をトークンとして返すことがあるので問題は起こりません。
 
 ```diff
 ●リスト3::syntax/parser.cr
@@ -497,7 +497,7 @@ Error:, couldn't format 'imlit.cr', please report a bug including the contents o
 ```
 !!!cmd
 ●図2::今回のdiff
-$ git diff master...feature/syntax/imaginary-number-j
+$ git diff --stat master...feature/syntax/imaginary-number-j
  spec/compiler/formatter/formatter_spec.cr         |  1 +
  spec/compiler/parser/parser_spec.cr               |  4 ++++
  spec/compiler/parser/to_s_spec.cr                 |  1 +
