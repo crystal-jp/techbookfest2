@@ -257,7 +257,7 @@ end
 getterとは別に属性名(String)からクラス変数の値を取得できるようにしてみましょう。
 具体的には、次のようなものです。
 ```
-puts user.get_value_of("name") # => "man"
+puts user.get_value_of("name") # => "tbrand"
 ```
 そもそもこの関数を何に使うかは置いといて、これはマクロでないと実現が難しそうですよね。
 具体的にはこうなります。
@@ -377,9 +377,9 @@ Railsはコマンドからモデルを作成することでこの問題を解決
 ```
 db.query some_query do |rs|
   rs.each do
-	{% for column in columns %}
+    {% for column in columns %}
       rs.read {{column[:type]}}
-	{% end %}
+    {% end %}
   end
 end
 ```
