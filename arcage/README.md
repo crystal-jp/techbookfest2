@@ -5,7 +5,7 @@ Author: AKJ / @arcage
 
 RubyにGemsがあるように、Crystalにも[Shards](https://github.com/crystal-lang/shards)（シャーズ）というパッケージ管理の仕組みが用意されています。以前はShards単体をCrystal本体とは別にインストールしなければならない時期もありましたが、Crystal v0.8.0からコンパイラ標準のライブラリ依存関係の管理ツールとして採用されたこともあり、最近では（少なくともmacOS用のhomebrewやLinux向けに公式で用意されているパッケージからインストールされた場合には）Crystal本体をインストールすればShardsもセットで利用できるようになっています。
 
-Shardsは、Gemsと同じく言語本体に標準添付されていないライブラリをインターネットなどから取得して使えるようにしてくれます。このときGemsによってインストールされる個々のライブラリがGemと呼ばれるように、Shardsによってインストールされる個々のライブラリをCrystalではShard（シャード）(注:「Shard」は「石や陶器などの破片/かけら」といった意味。)と呼びます。ただし、CrystalにおけるShardsの役割は、Rubyに対するGemsのそれと完全に同一ではありません。例えば、Gemsが基本的にRubyインタプリタのグローバルな環境にGemをインストールするのに対して、Shardは個々のプロジェクトフォルダ内にShardをインストールします。インストールするShard特定のバージョンに限定したり、開発環境にだけインストールして本番環境にはインストールしないShardを指定することもできます。そうした点では、ShardsはRubyにおけるGems+Bundlerに相当する機能を担っていると言って良いかもしれません（注:Shards本体にはShardの検索機能は実装されていませんが、Shardを検索できる[CrystalShards](http://crystalshards.xyz)や、有用なShardへのリンクを集めた[Awesome Crystal](https://github.com/veelenga/awesome-crystal)といったサイトが利用可能です。）。
+Shardsは、Gemsと同じく言語本体に標準添付されていないライブラリをインターネットなどから取得して使えるようにしてくれます。このときGemsによってインストールされる個々のライブラリがGemと呼ばれるように、Shardsによってインストールされる個々のライブラリをCrystalではShard（シャード）(注:「Shard」は「石や陶器などの破片/かけら」といった意味。)と呼びます。ただし、CrystalにおけるShardsの役割は、Rubyに対するGemsのそれと完全に同一ではありません。例えば、Gemsが基本的にRubyインタプリタのグローバルな環境にGemをインストールするのに対して、Shardは個々のプロジェクトフォルダ内にShardをインストールします。インストールするShard特定のバージョンに限定したり、開発環境にだけインストールして本番環境にはインストールしないShardを指定することもできます。そうした点では、ShardsはRubyにおけるGems+Bundlerに相当する機能を担っていると言って良いかもしれません(注:Shards本体にはShardの検索機能は実装されていませんが、Shardを検索できる[CrystalShards](http://crystalshards.xyz)や、有用なShardへのリンクを集めた[Awesome Crystal](https://github.com/veelenga/awesome-crystal)といったサイトが利用可能です。)。
 
 ## なぜShardを公開するの？
 
@@ -108,7 +108,7 @@ BDDでは、まず実装しようとするライブラリが外部に公開す�
 
 テストケースの書き方についてはあまりまとまったドキュメントがないのですが、ユニットテスト実行時には全てのオブジェクトに`#should`と`#should_not`メソッドがインクルードされており、[`Spec::Expectations`モジュールのインスタンスメソッド](https://crystal-lang.org/api/Spec/Expectations.html)を引数として与えると、与えられた条件にしたがって結果のチェックが行われるようなイメージです。
 
-というわけで、「`Greeting.hello("John")`が`"Hello, John!"`を返す」というだけのテストケースはこんな感じになります（注:この時点ではまだライブラリ本体に`Greeting.hello`が実装されていないため、ユニットテストを実行しても「そんなメソッドは無ぇ!!」と怒られます。）。
+というわけで、「`Greeting.hello("John")`が`"Hello, John!"`を返す」というだけのテストケースはこんな感じになります(注:この時点ではまだライブラリ本体に`Greeting.hello`が実装されていないため、ユニットテストを実行しても「そんなメソッドは無ぇ!!」と怒られます。)。
 
     (注:spec/greeting_spec.cr（テスト内容記述後）)
     require "./spec_helper"
