@@ -145,7 +145,7 @@ p (1 + 2j) == Complex.new(1, 2) # => true
 @@ -211,6 +211,23 @@ module Crystal
      def_hash value, kind
    end
- 
+
 +  # An imaginary number literal.
 +  #
 +  #     1j
@@ -179,7 +179,7 @@ p (1 + 2j) == Complex.new(1, 2) # => true
 @@ -79,6 +79,11 @@ module Crystal
        true
      end
- 
+
 +    def visit(node : ImaginaryNumberLiteral)
 +      node.number.accept self
 +      @str << "j"
@@ -193,7 +193,7 @@ p (1 + 2j) == Complex.new(1, 2) # => true
 @@ -405,6 +405,11 @@ module Crystal
        node
      end
- 
+
 +    def transform(node : ImaginaryNumberLiteral)
 +      node.number = node.number.transform self
 +      node
@@ -288,11 +288,11 @@ hash
 --- a/src/compiler/crystal/semantic/ast.cr
 +++ b/src/compiler/crystal/semantic/ast.cr
 @@ -564,14 +564,15 @@ module Crystal
- 
+
    module ExpandableNode
      property expanded : ASTNode?
    end
- 
+
    {% for name in %w(And Or
                     ArrayLiteral HashLiteral RegexLiteral RangeLiteral
 +                   ImaginaryNumberLiteral
@@ -316,7 +316,7 @@ hash
 @@ -659,6 +659,22 @@ module Crystal
        Call.new(Path.global(["Regex", "Options"]).at(node), "new", NumberLiteral.new(node.options.value).at(node)).at(node)
      end
- 
+
 +    # Convert a imaginary number literal to a call:
 +    #
 +    # From:
@@ -341,7 +341,7 @@ hash
 @@ -2717,6 +2717,10 @@ module Crystal
        node.type = program.type_from_literal_kind node.kind
      end
- 
+
 +    def visit(node : ImaginaryNumberLiteral)
 +      expand(node)
 +    end
@@ -382,7 +382,7 @@ true
 と、これでコンパイラの実装は完了したかのように見えますが、他にもまだやることが残っています。`crystal tool format`は現状`ImaginaryNumberLiteral`には対応していないので、虚数リテラルを含むコードに対して実行するとエラーが起こります。
 
 ```
-!!cmd
+!!!cmd
 $ ./bin/crystal tool format imlit.cr
 Using compiled compiler at .build/crystal
 Error:, couldn't format 'imlit.cr', please report a bug including the contents of it: https://github.com/crystal-lang/crystal/issues
@@ -399,7 +399,7 @@ Error:, couldn't format 'imlit.cr', please report a bug including the contents o
 @@ -393,6 +393,15 @@ module Crystal
        false
      end
- 
+
 +    def visit(node : ImaginaryNumberLiteral)
 +      node.number.accept self
 +      check_ident "j"
@@ -411,11 +411,11 @@ Error:, couldn't format 'imlit.cr', please report a bug including the contents o
 +
      def visit(node : StringLiteral)
        @last_is_heredoc = false
- 
+
 @@ -4488,6 +4497,11 @@ module Crystal
        raise "expecting #{token_type}, not `#{@token.type}, #{@token.value}`, at #{@token.location}" unless @token.type == token_type
      end
- 
+
 +    def check_ident(token_value)
 +      check :IDENT
 +      raise "expecting `#{token_value}`, not `#{@token.value}`, at #{@token.location}" unless @token.value == token_value
@@ -443,21 +443,21 @@ Error:, couldn't format 'imlit.cr', please report a bug including the contents o
    assert_format "0u64", "0u64"
    assert_format "0i64", "0i64"
 +  assert_format "1j"
- 
+
    assert_format "   1", "1"
    assert_format "\n\n1", "1"
 --- a/spec/compiler/parser/parser_spec.cr
 +++ b/spec/compiler/parser/parser_spec.cr
 @@ -47,6 +47,10 @@ describe "Parser" do
- 
+
    it_parses "2.3_f32", 2.3.float32
- 
+
 +  it_parses "1j", ImaginaryNumberLiteral.new(1.int32)
 +  it_parses "3.14j", ImaginaryNumberLiteral.new(3.14.float64)
 +  assert_syntax_error "1 j"
 +
    it_parses "'a'", CharLiteral.new('a')
- 
+
    it_parses %("foo"), "foo".string
 --- a/spec/compiler/parser/to_s_spec.cr
 +++ b/spec/compiler/parser/to_s_spec.cr
@@ -472,7 +472,7 @@ Error:, couldn't format 'imlit.cr', please report a bug including the contents o
 @@ -21,6 +21,14 @@ describe "Semantic: primitives" do
      assert_type("2.3_f64") { float64 }
    end
- 
+
 +  it "types a Complex" do
 +    assert_type(%(
 +      require "prelude"
