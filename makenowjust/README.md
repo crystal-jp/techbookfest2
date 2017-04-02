@@ -76,15 +76,15 @@ macros/   tools/     config.cr    formatter.cr     semantic.cr util.cr
 
 これらのファイルやディレクトリのうち、重要なものをいくつか紹介します。
 
-  - `command.cr`： `Crystal::Command`クラスが定義されています。このクラスは`crystal`コマンドの実質的なエントリポイントです。（本当のエントリポイントは`/src/compiler/crystal.cr`ですが、このファイルは実質的に`Crystal::Command.run`を呼んでいるだけです）
-  - `command/`: `crystal`コマンドの一部のサブコマンド（`crystal tool format`や`crystal spec`など）のエントリポイントがこのディレクトリ以下にあります。
-  - `tools/`: `crystal tool format`や`crystal init`、`crystal play`などのサブコマンドの実装がこのディレクトリ以下にあります。
-  - `compiler.cr`: `Crystal::Compiler`クラスが定義されています。このクラスはソースコードをパースして抽象構文木を作り、それに各種処理を適用して最終的に実行ファイルを作るまでの一連の処理をまとめています。
-  - `program.cr`: `Crystal::Program`クラスが定義されています。このクラスはプログラムの環境を表わしていて、トップレベルのクラスやメソッドの定義を保持しています。このクラスのインスタンスは様々なところで使い回されることになります。
-  - `types.cr`: 型を表すクラスが定義されています。
-  - `syntax/`: パーサーの実装や抽象構文木の定義がこのディレクトリ以下にあります。
-  - `semantic.cr`, `semantic/`: `Semantic`フェーズの各処理の実装がここにあります。
-  - `codegen.cr`, `codegen/`: `Codegen`フェーズの各処理の実装がここにあります。
+- `command.cr`： `Crystal::Command`クラスが定義されています。このクラスは`crystal`コマンドの実質的なエントリポイントです。（本当のエントリポイントは`/src/compiler/crystal.cr`ですが、このファイルは実質的に`Crystal::Command.run`を呼んでいるだけです）
+- `command/`: `crystal`コマンドの一部のサブコマンド（`crystal tool format`や`crystal spec`など）のエントリポイントがこのディレクトリ以下にあります。
+- `tools/`: `crystal tool format`や`crystal init`、`crystal play`などのサブコマンドの実装がこのディレクトリ以下にあります。
+- `compiler.cr`: `Crystal::Compiler`クラスが定義されています。このクラスはソースコードをパースして抽象構文木を作り、それに各種処理を適用して最終的に実行ファイルを作るまでの一連の処理をまとめています。
+- `program.cr`: `Crystal::Program`クラスが定義されています。このクラスはプログラムの環境を表わしていて、トップレベルのクラスやメソッドの定義を保持しています。このクラスのインスタンスは様々なところで使い回されることになります。
+- `types.cr`: 型を表すクラスが定義されています。
+- `syntax/`: パーサーの実装や抽象構文木の定義がこのディレクトリ以下にあります。
+- `semantic.cr`, `semantic/`: `Semantic`フェーズの各処理の実装がここにあります。
+- `codegen.cr`, `codegen/`: `Codegen`フェーズの各処理の実装がここにあります。
 
 ここにあるファイルを弄っていくことで、コンパイラを改造していきます。
 
@@ -97,8 +97,8 @@ macros/   tools/     config.cr    formatter.cr     semantic.cr util.cr
 依存ライブラリをインストールしたら、`make`コマンドを叩いてビルドを実行するだけです。また、ビルドしてできたファイルを削除したい場合は`make clean`を実行します。また、コンパイラのテストをするには`make compiler_spec`、標準ライブラリのテストをするには`make std_spec`を実行します。（`make spec`も存在しますが、膨大なメモリと実行時間を必要とするので注意してください。）
 
 ```
-●図1::Crystalのmake
 !!!cmd
+●図1::Crystalのmake
 (注:コンパイラをビルドする)
 $ make
 (注:ビルドしてできたファイルを削除する)

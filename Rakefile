@@ -34,6 +34,6 @@ end
 
 AUTHORS.each do |author|
   file "#{author}/README.txt" => ["#{author}/README.md"] do |t|
-    sh "md2inao.pl --format=in_design #{t.source} | sed -e '1d' > #{t.name}"
+    sh "md2inao.pl --format=in_design #{t.source} | sed -e '1d' | sed -e 's/ParaStyle:タイトル>タイトル：/ParaStyle:タイトル>/' > #{t.name}"
   end
 end
