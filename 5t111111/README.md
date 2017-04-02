@@ -1,6 +1,7 @@
 Title: Crystal プログラムのビルドとデプロイ
 Author: Hirofumi Wakasugi
 Twitter: @5t111111
+
 # はじめに
 
 Crystal 本を読んでいただきありがとうございます。この本を手に取ったということは、あなたはきっと Crystal に興味を持ち、そしてプログラミング言語として魅力を感じているのだと思います。
@@ -31,22 +32,23 @@ Crystal 本を読んでいただきありがとうございます。この本を
 
 この本を手に取った方は、おそらくすでに一度は Crystal プログラムを動かしたことがある人が多いかと思いますが、はじめての人のために、基本的な Crystal プログラムの実行方法の紹介から順番に進めていきます。
 
-**hello_world.cr**
 
 ```crystal
+(注:hello_world.cr)
 puts "Hello, world!"
 ```
 
 これは、説明するまでもない「Hello World」プログラムで、Crystal で書かれたプログラムとしては最も単純なものの1つです。このプログラムを実行するためには、以下のように `crystal run` コマンドを使います (crystal がインストールされている必要があります) 。
 
 ```shell
+!!!cmd
 $ crystal run hello_world.cr
 ```
 
 これを実行すると、画面には以下のように表示されます。
 
-
 ```shell
+!!!cmd
 Hello, world!
 ```
 
@@ -61,6 +63,7 @@ Hello, world!
 Crystal プログラムのビルドも簡単です。ビルドするには `crystal build` コマンドを使います。先ほどの「Hello World」プログラムをビルドしてみましょう。
 
 ```shell
+!!!cmd
 $ crystal build hello_world.cr
 ```
 
@@ -75,6 +78,7 @@ $ crystal build hello_world.cr
 `file` コマンドなどでファイルの情報を見てみましょう。具体的な内容は処理系に依存しますが、多くの場合 `executable` などの表記があり実行ファイルであることが確認できると思います。例えば、以下は macOS 上でビルドしたバイナリの情報です。
 
 ```shell
+!!!cmd
 $ file hello_world
 hello_world: Mach-O 64-bit executable x86_64
 ```
@@ -82,12 +86,14 @@ hello_world: Mach-O 64-bit executable x86_64
 では、このバイナリを実行してみましょう。バイナリのパスを指定して実行します。カレントディレクトリにバイナリがあれば実行方法は以下となります。
 
 ```shell
+!!!cmd
 ./hello_world
 ```
 
 すると、画面には以下のように表示されます。
 
 ```shell
+!!!cmd
 Hello, world!
 ```
 
@@ -100,6 +106,7 @@ Hello, world!
 Crystal プログラムをビルドすると、デフォルトではホームディレクトリの `.cache` ディレクトリ配下に `crystal` というディレクトリが作られ、そこに上記の中間表現のファイルが格納されています。少しその中を覗いてみましょう。
 
 ```
+!!!cmd
 $ ls $HOME/.cache/crystal
 ```
 
@@ -164,6 +171,7 @@ LLVM に関してはあまり詳細には踏み込まず概要だけ簡単に説
 まず、Crystal プログラムを Release 版としてビルドする方法について紹介します。先ほど、`crystal build` コマンドによって Crystal のプログラムをビルドすることができると書きました。しかし、実はそれだけでは最適化されたバイナリを生成することができません。最適化のためには `--release` というフラグを使います。例えば先述の「Hello World」プログラムに対して release ビルドを行い最適化するには以下のようにします。
 
 ```shell
+!!!cmd
 $ crystal build hello_world.cr --release
 ```
 
@@ -202,12 +210,14 @@ Crystal でクロスコンパイルを行うには、`crystal build` コマン�
 では、上記した Linux マシンをターゲットの例とした場合のクロスコンパイルの具体的なコマンドを見てみます。`--cross-compile` フラグと、「x86_64-pc-linux-gnu」を `--target` フラグに指定するので以下のようになります。
 
 ```shell
+!!!cmd
 $ crystal build hello_world.cr --cross-compile --target "x86_64-pc-linux-gnu"
 ```
 
 上記を実行し正常にコンパイルが完了すると、画面上に
 
 ```text
+!!!cmd
 cc hello_world.o -o hello_world  -rdynamic  -lpcre -lgc -lpthread /usr/local/Cellar/crystal-lang/0.21.1/src/ext/libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib
 ```
 
@@ -218,6 +228,7 @@ cc hello_world.o -o hello_world  -rdynamic  -lpcre -lgc -lpthread /usr/local/Cel
 念のために、生成されたオブジェクトファイルの情報を見てみます。
 
 ```shell
+!!!cmd
 $ file hello_world.o
 hello_world.o: ELF 64-bit LSB relocatable, x86-64, version 1 (SYSV), not stripped
 ```
@@ -247,6 +258,7 @@ https://github.com/crystal-lang/crystal/releases
 コピーしたら、先ほどのリンクコマンドを実行します。`libcrystal.a` のパスを修正することを忘れないようにしてください。
 
 ```shell
+!!!cmd
 $ cc hello_world.o -o hello_world  -rdynamic  -lpcre -lgc -lpthread libcrystal.a -levent -lrt -ldl -L/usr/lib -L/usr/local/lib
 ```
 
